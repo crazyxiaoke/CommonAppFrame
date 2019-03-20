@@ -1,0 +1,57 @@
+package com.hz.zxk.lib_commonframe.base;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+/**
+ * @author zhengxiaoke
+ * @date 2019/3/19 3:56 PM
+ */
+public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseView> extends Fragment
+    implements IBaseView{
+    private Context mContext;
+    private Activity mActivity;
+
+
+    P mPresenter;
+
+    public BaseFragment(){
+        mPresenter=initPresenter();
+        mPresenter.attchView((V) this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(getLayoutId(),container,false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mContext=getContext();
+        mActivity=getActivity();
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        //显示加载框
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        //隐藏加载框
+    }
+
+    protected abstract P initPresenter(); //初始化presenter
+
+    protected abstract int getLayoutId(); //获取布局id
+}
