@@ -27,7 +27,10 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
 
     public BaseFragment(){
         mPresenter=initPresenter();
-        mPresenter.attchView((V) this);
+        if(mPresenter!=null){
+            mPresenter.attchView((V) this);
+        }
+
     }
 
     @Nullable
@@ -98,6 +101,52 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
     }
 
     /**
+     * 显示fragment
+     * @param fragment
+     */
+    protected void showFragment(Fragment fragment){
+        this.showFragment(fragment,0,0);
+    }
+
+    /**
+     * 显示fragment,自定义转场动画
+     * @param fragment
+     * @param enterAnim 进入动画
+     * @param exitAnim  退出动画
+     */
+    protected void showFragment(Fragment fragment,@AnimRes int enterAnim,@AnimRes int exitAnim){
+        FragmentTransaction ft=fm.beginTransaction();
+        if(enterAnim!=0&&exitAnim!=0){
+            ft.setCustomAnimations(enterAnim,exitAnim);
+        }
+        ft.show(fragment);
+        ft.commitAllowingStateLoss();
+    }
+
+    /**
+     * 隐藏fragment
+     * @param fragment
+     */
+    protected void hideFragment(Fragment fragment){
+        this.hideFragment(fragment,0,0);
+    }
+
+    /**
+     * 隐藏fragment,自定义转场动画
+     * @param fragment
+     * @param enterAnim 进入动画
+     * @param exitAnim  退出动画
+     */
+    protected void hideFragment(Fragment fragment,@AnimRes int enterAnim,@AnimRes int exitAnim){
+        FragmentTransaction ft=fm.beginTransaction();
+        if(enterAnim!=0&&exitAnim!=0){
+            ft.setCustomAnimations(enterAnim,exitAnim);
+        }
+        ft.hide(fragment);
+        ft.commitAllowingStateLoss();
+    }
+
+    /**
      * 移除fragment
      * @param resId
      * @param fragment
@@ -131,6 +180,16 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
     @Override
     public void hideLoadingDialog() {
         //隐藏加载框
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mPresenter!=null){
+            mPresenter.clearDisposable();
+            mPresenter.destoryView();
+            mPresenter=null;
+        }
     }
 
     protected abstract P initPresenter(); //初始化presenter
