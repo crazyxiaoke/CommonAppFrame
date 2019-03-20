@@ -29,7 +29,9 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
         init();
         initView();
         mPresenter=initPresenter();
-        mPresenter.attchView((V) this);
+        if(mPresenter!=null){
+            mPresenter.attchView((V) this);
+        }
     }
 
     private void init(){
@@ -136,8 +138,10 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.clearDisposable();
-        mPresenter.destoryView();
+        if(mPresenter!=null) {
+            mPresenter.clearDisposable();
+            mPresenter.destoryView();
+        }
     }
 
     protected abstract P initPresenter();  //初始化presenter
