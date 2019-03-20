@@ -16,25 +16,15 @@ public class BaseApplication extends Application {
 
     private List<Activity> activities;
 
-    private static BaseApplication sInstance;
+    public static BaseApplication sInstance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance=this;
         activities=new ArrayList<>();
         //ARouter初始化
         ARouter.init(this);
-    }
-
-    public static BaseApplication getInstance(){
-        if(sInstance==null){
-            synchronized (BaseApplication.class){
-                if(sInstance==null){
-                    sInstance=new BaseApplication();
-                }
-            }
-        }
-        return sInstance;
     }
 
     /**

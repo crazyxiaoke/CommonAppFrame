@@ -4,13 +4,14 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hz.zxk.lib_commonframe.arouter.ARouterHelper;
+import com.hz.zxk.lib_commonframe.base.BaseApplication;
 import com.hz.zxk.lib_commonframe.http.retrofit.RetrofitHelper;
 
 /**
  * @author zhengxiaoke
  * @date 2019/3/18 10:36 PM
  */
-public class MyApplication extends Application {
+public class MyApplication extends BaseApplication {
 
     @Override
     public void onCreate() {

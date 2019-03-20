@@ -34,7 +34,7 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
         if(mPresenter!=null){
             mPresenter.attchView((V) this);
         }
-        BaseApplication.getInstance().addActivity(this);
+        BaseApplication.sInstance.addActivity(this);
     }
 
     private void init(){
@@ -188,7 +188,7 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
     protected void onDestroy() {
         super.onDestroy();
         //移除activity
-        BaseApplication.getInstance().removeActivity(this);
+        BaseApplication.sInstance.removeActivity(this);
         //销毁presenter
         if(mPresenter!=null) {
             mPresenter.clearDisposable();
