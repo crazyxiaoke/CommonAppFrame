@@ -3,6 +3,8 @@ package com.hz.zxk.lib_commonframe.base;
 import android.app.Activity;
 import android.app.Application;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         activities=new ArrayList<>();
+        //ARouter初始化
+        ARouter.init(this);
     }
 
     public static BaseApplication getInstance(){
@@ -56,5 +60,6 @@ public class BaseApplication extends Application {
             }
         }
     }
+
 
 }

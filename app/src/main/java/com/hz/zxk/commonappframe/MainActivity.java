@@ -1,11 +1,15 @@
 package com.hz.zxk.commonappframe;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.hz.zxk.lib_commonframe.arouter.ARouterHelper;
 import com.hz.zxk.lib_commonframe.http.ApiService;
 import com.hz.zxk.lib_commonframe.http.retrofit.RetrofitHelper;
 
@@ -25,7 +29,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouterHelper.getInstance().build("/page/main/second")
+                        .withString("name","晓克")
+                        .withAnimation(R.anim.push_left_in,R.anim.push_left_out)
+                        .navigation();
+            }
+        });
         Map<String,Object> queryMap=new HashMap<>();
         queryMap.put("screenWidth","1080");
         queryMap.put("system","android");
