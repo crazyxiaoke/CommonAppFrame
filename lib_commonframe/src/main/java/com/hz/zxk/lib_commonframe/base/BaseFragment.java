@@ -40,8 +40,10 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
             return super.onCreateView(inflater,container,savedInstanceState);
         }
         View view=inflater.inflate(getLayoutId(),container,false);
+        findView(view);
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
         fm=getChildFragmentManager();
         mContext=getContext();
         mActivity=getActivity();
+        init();
     }
 
     /**
@@ -198,4 +201,8 @@ public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseVie
     protected abstract P initPresenter(); //初始化presenter
 
     protected abstract int getLayoutId(); //获取布局id
+
+    protected abstract void findView(View view);
+
+    protected abstract void init();
 }
