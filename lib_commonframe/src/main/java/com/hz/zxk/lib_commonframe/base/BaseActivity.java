@@ -10,16 +10,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.hz.zxk.lib_commonframe.manager.ActivityManager;
+
 /**
  * @author zhengxiaoke
  * @date 2019/3/18 5:28 PM
  */
 public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseView> extends FragmentActivity
     implements IBaseView{
-    private Activity mThisActivity;
-    private Context mContext;
+    protected Activity mThisActivity;
+    protected Context mContext;
     private FragmentManager fm;
-    private P mPresenter;
+    protected P mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
         if(mPresenter!=null){
             mPresenter.attchView((V) this);
         }
-        BaseApplication.sInstance.addActivity(this);
+        ActivityManager.getInstance().attach(this);
     }
 
     private void init(){
@@ -186,15 +188,16 @@ public abstract class BaseActivity<P extends BasePresenter<V>,V extends IBaseVie
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         //移除activity
-        BaseApplication.sInstance.removeActivity(this);
+        ActivityManager.getInstance().detach(this);
         //销毁presenter
         if(mPresenter!=null) {
             mPresenter.clearDisposable();
             mPresenter.destoryView();
             mPresenter=null;
         }
+        super.onDestroy();
+
     }
 
     protected abstract P initPresenter();  //初始化presenter

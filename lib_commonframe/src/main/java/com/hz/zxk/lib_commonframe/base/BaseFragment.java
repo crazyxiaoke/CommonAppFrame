@@ -19,8 +19,8 @@ import android.view.ViewGroup;
  */
 public abstract class BaseFragment<P extends BasePresenter<V>,V extends IBaseView> extends Fragment
     implements IBaseView{
-    private Context mContext;
-    private Activity mActivity;
+    protected Context mContext;
+    protected Activity mActivity;
     private FragmentManager fm;
 
     P mPresenter;
