@@ -24,6 +24,6 @@ public class BaseApplication extends Application {
         //ARouter初始化
         ARouter.init(this);
     }
-    
+
 
 }
