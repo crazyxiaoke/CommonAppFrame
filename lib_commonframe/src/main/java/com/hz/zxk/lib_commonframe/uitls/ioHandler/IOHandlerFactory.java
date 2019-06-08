@@ -6,20 +6,27 @@ package com.hz.zxk.lib_commonframe.uitls.ioHandler;
  */
 public class IOHandlerFactory {
 
-    public enum IOType{
-        MEMORY,
-        PREFERENCES
+    public static IOHandler createIOHandler(Class<? extends IOHandler> ioHandler){
+        try {
+            ioHandler.newInstance();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return new PreferencesIOHandler();
     }
 
-    public static IOHandler createIOHandler(IOType ioType){
-        switch (ioType){
-            case MEMORY:
-                return new MemoryIOHandler();
-            case PREFERENCES:
-                return new PreferencesIOHandler();
-            default:
-                return null;
-        }
+    public static IOHandler getMemoryIOHandler(){
+        return createIOHandler(MemoryIOHandler.class);
+    }
+
+    public static IOHandler getPreferencesIOHandler(){
+        return createIOHandler(PreferencesIOHandler.class);
+    }
+
+    public static IOHandler getDefaultIOHandler(){
+        return createIOHandler(PreferencesIOHandler.class);
     }
 
 }
