@@ -4,11 +4,33 @@ package com.hz.zxk.lib_commonframe.uitls.ioHandler;
  * @author zhengxiaoke
  * @date 2019-06-08 23:21
  */
-public class IOHandlerFactory {
+public class IOHandlerFactory implements IOFactory{
 
-    public static IOHandler createIOHandler(Class<? extends IOHandler> ioHandler){
+    private static IOHandlerFactory sInstance;
+
+    private IOHandler memoryIOHandler;
+    private IOHandler preferencesIOHandler;
+
+    private IOHandlerFactory(){
+
+    }
+
+
+    public static IOHandlerFactory getInstance(){
+        if(sInstance==null){
+            synchronized (IOHandlerFactory.class){
+                if(sInstance==null){
+                    sInstance=new IOHandlerFactory();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    @Override
+    public  IOHandler createIOHandler(Class<? extends IOHandler> ioHandlerClass) {
         try {
-            ioHandler.newInstance();
+            ioHandlerClass.newInstance();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -17,15 +39,21 @@ public class IOHandlerFactory {
         return new PreferencesIOHandler();
     }
 
-    public static IOHandler getMemoryIOHandler(){
-        return createIOHandler(MemoryIOHandler.class);
+    public  IOHandler getMemoryIOHandler(){
+        if(memoryIOHandler==null){
+            memoryIOHandler=createIOHandler(MemoryIOHandler.class);
+        }
+        return memoryIOHandler;
     }
 
-    public static IOHandler getPreferencesIOHandler(){
-        return createIOHandler(PreferencesIOHandler.class);
+    public  IOHandler getPreferencesIOHandler(){
+        if(preferencesIOHandler==null){
+            preferencesIOHandler=createIOHandler(PreferencesIOHandler.class);
+        }
+        return preferencesIOHandler;
     }
 
-    public static IOHandler getDefaultIOHandler(){
+    public  IOHandler getDefaultIOHandler(){
         return createIOHandler(PreferencesIOHandler.class);
     }
 
